@@ -1,22 +1,19 @@
 /* First time reading an OCaml/Reason/BuckleScript file? */
 /* `external` is the foreign function call in OCaml. */
-
 /* here we're saying `I guarantee that on the JS side, we have a `render` function in the module "react-dom"
    that takes in a reactElement, a dom element, and returns unit (nothing) */
-
 /* It's like `let`, except you're pointing the implementation to the JS side. The compiler will inline these
    calls and add the appropriate `require("react-dom")` in the file calling this `render` */
-
-external render : ReactRe.reactElement => ReasonJs.Document.element => unit =
+external render : ReactRe.reactElement => ReasonJs.Dom.element => unit =
   "render" [@@bs.val] [@@bs.module "react-dom"];
 
-external unmountComponentAtNode : ReasonJs.Document.element => unit =
+external unmountComponentAtNode : ReasonJs.Dom.element => unit =
   "unmountComponentAtNode" [@@bs.val] [@@bs.module "react-dom"];
 
-external findDOMNode : ReactRe.reactRef => ReasonJs.Document.element =
+external findDOMNode : ReactRe.reactRef => ReasonJs.Dom.element =
   "findDOMNode" [@@bs.val] [@@bs.module "react-dom"];
 
-external domElementToObj : ReasonJs.Document.element => Js.t {..} = "%identity";
+external domElementToObj : ReasonJs.Dom.element => Js.t {..} = "%identity";
 
 type reactDOMProps;
 
@@ -26,7 +23,6 @@ type style;
 external props :
   key::string? =>
   ref::(ReactRe.reactRef => unit)? =>
-
   /* global html attributes */
   accessKey::string? =>
   className::string? => /* substitute for "class" */
@@ -42,15 +38,12 @@ external props :
   spellCheck::Js.boolean? =>
   tabIndex::int? =>
   title::string? =>
-
   /* html5 microdata */
   itemID::string? =>
   itemProp::string? =>
   itemRef::string? =>
   itemScope::Js.boolean? =>
   itemType::string? => /* uri */
-
-
   /* tag-specific html attributes */
   accept::string? =>
   acceptCharset::string? =>
@@ -139,31 +132,25 @@ external props :
   value::string? =>
   width::string? => /* in html5 this can only be a number, but in html4 it can ba a percentage as well */
   wrap::string? => /* "hard" or "soft" */
-
   /* Clipboard events */
   onCopy::(ReactEventRe.Clipboard.t => unit)? =>
   onCut::(ReactEventRe.Clipboard.t => unit)? =>
   onPaste::(ReactEventRe.Clipboard.t => unit)? =>
-
   /* Composition events */
   onCompositionEnd::(ReactEventRe.Composition.t => unit)? =>
   onCompositionStart::(ReactEventRe.Composition.t => unit)? =>
   onCompositionUpdate::(ReactEventRe.Composition.t => unit)? =>
-
   /* Keyboard events */
   onKeyDown::(ReactEventRe.Keyboard.t => unit)? =>
   onKeyPress::(ReactEventRe.Keyboard.t => unit)? =>
   onKeyUp::(ReactEventRe.Keyboard.t => unit)? =>
-
   /* Focus events */
   onFocus::(ReactEventRe.Focus.t => unit)? =>
   onBlur::(ReactEventRe.Focus.t => unit)? =>
-
   /* Form events */
   onChange::(ReactEventRe.Form.t => unit)? =>
   onInput::(ReactEventRe.Form.t => unit)? =>
   onSubmit::(ReactEventRe.Form.t => unit)? =>
-
   /* Mouse events */
   onClick::(ReactEventRe.Mouse.t => unit)? =>
   onContextMenu::(ReactEventRe.Mouse.t => unit)? =>
@@ -183,22 +170,17 @@ external props :
   onMouseOut::(ReactEventRe.Mouse.t => unit)? =>
   onMouseOver::(ReactEventRe.Mouse.t => unit)? =>
   onMouseUp::(ReactEventRe.Mouse.t => unit)? =>
-
   /* Selection events */
   onSelect::(ReactEventRe.Selection.t => unit)? =>
-
   /* Touch events */
   onTouchCancel::(ReactEventRe.Touch.t => unit)? =>
   onTouchEnd::(ReactEventRe.Touch.t => unit)? =>
   onTouchMove::(ReactEventRe.Touch.t => unit)? =>
   onTouchStart::(ReactEventRe.Touch.t => unit)? =>
-
   /* UI events */
   onScroll::(ReactEventRe.UI.t => unit)? =>
-
   /* Wheel events */
   onWheel::(ReactEventRe.Wheel.t => unit)? =>
-
   /* Media events */
   onAbort::(ReactEventRe.Media.t => unit)? =>
   onCanPlay::(ReactEventRe.Media.t => unit)? =>
@@ -223,19 +205,14 @@ external props :
   onTimeUpdate::(ReactEventRe.Media.t => unit)? =>
   onVolumeChange::(ReactEventRe.Media.t => unit)? =>
   onWaiting::(ReactEventRe.Media.t => unit)? =>
-
   /* Image events */
-  onLoad::(ReactEventRe.Image.t => unit)? =>
-  /*onError::(ReactEventRe.Image.t => unit)? =>*/ /* duplicate */
-
+  onLoad::(ReactEventRe.Image.t => unit)? /*onError::(ReactEventRe.Image.t => unit)? =>*/ => /* duplicate */
   /* Animation events */
   onAnimationStart::(ReactEventRe.Animation.t => unit)? =>
   onAnimationEnd::(ReactEventRe.Animation.t => unit)? =>
   onAnimationIteration::(ReactEventRe.Animation.t => unit)? =>
-
   /* Transition events */
   onTransitionEnd::(ReactEventRe.Transition.t => unit)? =>
-
   /* svg */
   accentHeight::string? =>
   accumulate::string? =>
@@ -478,7 +455,6 @@ external props :
   yChannelSelector::string? =>
   z::string? =>
   zoomAndPan::string? =>
-
   /* RDFa */
   about::string? =>
   datatype::string? =>
@@ -488,11 +464,9 @@ external props :
   resource::string? =>
   typeof::string? =>
   vocab::string? =>
-
   /* react-specific */
   dangerouslySetInnerHTML::string? =>
   suppressContentEditableWarning::Js.boolean? =>
-
   unit =>
   reactDOMProps =
   "" [@@bs.obj];
@@ -503,10 +477,7 @@ external createElement :
 
 module Style = {
   type t = style;
-
   external make :
-
-    /* CSS2Properties: https://www.w3.org/TR/DOM-Level-2-Style/css.html#CSS-CSS2Properties */
     azimuth::string? =>
     background::string? =>
     backgroundAttachment::string? =>
@@ -629,12 +600,9 @@ module Style = {
     width::string? =>
     wordSpacing::string? =>
     zIndex::string? =>
-
     /* Below properties based on https://www.w3.org/Style/CSS/all-properties */
-
     /* Color Level 3 - REC */
     opacity::string? =>
-
     /* Backgrounds and Borders Level 3 - CR */
     backgroundRepeat::string? =>
     backgroundAttachment::string? =>
@@ -653,7 +621,6 @@ module Style = {
     borderImageOutset::string? =>
     borderImageRepeat::string? =>
     boxShadow::string? =>
-
     /* Multi-column Layout - CR */
     columns::string? =>
     columnCount::string? =>
@@ -668,7 +635,6 @@ module Style = {
     breakAfter::string? =>
     breakBefore::string? =>
     breakInside::string? =>
-
     /* Speech - CR */
     rest::string? =>
     restAfter::string? =>
@@ -681,13 +647,11 @@ module Style = {
     voiceRate::string? =>
     voiceStress::string? =>
     voiceVolume::string? =>
-
     /* Image Values and Replaced Content Level 3 - CR */
     objectFit::string? =>
     objectPosition::string? =>
     imageResolution::string? =>
     imageOrientation::string? =>
-
     /* Flexible Box Layout - CR */
     alignContent::string? =>
     alignItems::string? =>
@@ -701,7 +665,6 @@ module Style = {
     flexWrap::string? =>
     justifyContent::string? =>
     order::string? =>
-
     /* Text Decoration Level 3 - CR */
     textDecoration::string? =>
     textDecorationColor::string? =>
@@ -714,7 +677,6 @@ module Style = {
     textEmphasisStyle::string? =>
     textShadow::string? =>
     textUnderlinePosition::string? =>
-
     /* Fonts Level 3 - CR */
     fontFeatureSettings::string? =>
     fontKerning::string? =>
@@ -728,21 +690,17 @@ module Style = {
     fontVariantLigatures::string? =>
     fontVariantNumeric::string? =>
     fontVariantPosition::string? =>
-
     /* Cascading and Inheritance Level 3 - CR */
     all::string? =>
-
     /* Writing Modes Level 3 - CR */
     glyphOrientationVertical::string? =>
     textCombineUpright::string? =>
     textOrientation::string? =>
     writingMode::string? =>
-
     /* Shapes Level 1 - CR */
     shapeImageThreshold::string? =>
     shapeMargin::string? =>
     shapeOutside::string? =>
-
     /* Masking Level 1 - CR */
     clipPath::string? =>
     clipRule::string? =>
@@ -763,18 +721,15 @@ module Style = {
     maskRepeat::string? =>
     maskSize::string? =>
     maskType::string? =>
-
     /* Compositing and Blending Level 1 - CR */
     backgroundBlendMode::string? =>
     isolation::string? =>
     mixBlendMode::string? =>
-
     /* Fragmentation Level 3 - CR */
     boxDecorationBreak::string? =>
     /* breakAfter - already defined by Multi-column Layout */
     /* breakBefore - already defined by Multi-column Layout */
     /* breakInside - already defined by Multi-column Layout */
-
     /* Basic User Interface Level 3 - CR */
     boxSizing::string? =>
     caretColor::string? =>
@@ -785,7 +740,6 @@ module Style = {
     outlineOffset::string? =>
     resize::string? =>
     textOverflow::string? =>
-
     /* Grid Layout Level 1 - CR */
     grid::string? =>
     gridArea::string? =>
@@ -805,10 +759,8 @@ module Style = {
     gridTempalteAreas::string? =>
     gridTemplateColumns::string? =>
     gridTemplateRows::string? =>
-
     /* Will Change Level 1 - CR */
     willChange::string? =>
-
     /* Text Level 3 - LC */
     hangingPunctuation::string? =>
     hyphens::string? =>
@@ -821,7 +773,6 @@ module Style = {
     textJustify::string? =>
     wordBreak::string? =>
     wordWrap::string? =>
-
     /* Animations - WD */
     animation::string? =>
     animationDelay::string? =>
@@ -832,14 +783,12 @@ module Style = {
     animationName::string? =>
     animationPlayState::string? =>
     animationTimingFunction::string? =>
-
     /* Transitions - WD */
     transition::string? =>
     transitionDelay::string? =>
     transitionDuration::string? =>
     transitionProperty::string? =>
     transitionTimingFunction::string? =>
-
     /* Transforms Level 1 - WD */
     backfaceVisibility::string? =>
     perspective::string? =>
@@ -847,7 +796,6 @@ module Style = {
     transform::string? =>
     transformOrigin::string? =>
     transformStyle::string? =>
-
     /* Box Alignment Level 3 - WD */
     alignContent::string? =>
     alignItems::string? =>
@@ -856,17 +804,14 @@ module Style = {
     placeContent::string? =>
     placeItems::string? =>
     placeSelf::string? =>
-
     /* Basic User Interface Level 4 - FPWD */
     appearance::string? =>
     caret::string? =>
     caretAnimation::string? =>
     caretShape::string? =>
     userSelect::string? =>
-
     /* Overflow Level 3 - WD */
     maxLines::string? =>
-
     /* Basix Box Model - WD */
     marqueeDirection::string? =>
     marqueeLoop::string? =>
@@ -875,13 +820,11 @@ module Style = {
     overflowStyle::string? =>
     rotation::string? =>
     rotationPoint::string? =>
-
     /* svg */
     fill::string? =>
     stroke::string? =>
     strokeWidth::string? =>
     strokeMiterlimit::string? =>
-
     /* Not added yet
      * -------------
      * Generated Content for Paged Media - WD
@@ -904,14 +847,15 @@ module Style = {
      * SVG Strokes - FPWD
      * Table Level 3 - FPWD
      */
-
     unit =>
-    style = "" [@@bs.obj];
-
-    let combine : style => style => style = [%bs.raw {|
+    style =
+    "" [@@bs.obj];
+  /* CSS2Properties: https://www.w3.org/TR/DOM-Level-2-Style/css.html#CSS-CSS2Properties */
+  let combine: style => style => style = [%bs.raw
+    {|
       function (a, b) {
         return Object.assign({}, a, b);
       }
-    |}];
-
-}
+    |}
+  ];
+};
